@@ -5,12 +5,12 @@
 # The circular import error happens because you named your script pytube.py.
 # Python prioritises modules in the working directory so you are trying to import your script pytube recursively.
 
-# 1. Search for youtube videos related to a topic
-# 2. Search all the videos related to a channel
-# 3. Open the video to play (video by video)
-# 4. Download a Youtube video
-# 5. Download the Youtube Video's audio. -check whether we can do it.
-# 6. Download the Youtube Video's subtitle.
+#  Search for youtube videos related to a topic
+#  Search all the videos related to a channel and playlist
+#  Open the video to play (video by video)
+#  Download a Youtube video
+#  Download the Youtube Video's audio. -check whether we can do it.
+#  Download the Youtube Video's subtitle.
 
 def search_video(keyword = "Miracle Schedule Whatsapp message using python "):
     from pytube import Search

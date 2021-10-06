@@ -2,7 +2,7 @@
 # Install smtp library using 'pip install secure-smtplib' command in command prompt 
 
 
-import smtplib
+import smtplib,socket
 
 def setup_server():
     # set up the SMTP server
@@ -33,15 +33,17 @@ def create_email(address):
     # add in the message body
     msg.attach(MIMEText(message, 'plain'))
     attach = input( "Would you like to send an attachment ? Yes/No : ").strip()
-    num_attach = int(input("Enter number of attachments :"))
+    attaching = False
+    if attach.lower()=='yes':
+        attaching = True
+        num_attach = int(input("Enter number of attachments :"))
     i = 0
     while i<num_attach:
-        if attach.lower()=='yes':
+        if attaching:
             add_attachment(msg)    
-            i+=1
-        elif attach.lower()=='no':
-            "No attachment added"
-            i+=1
+        else:
+            print("No attachment added")
+        i+=1
     return msg
 
 def send(server,msg):
@@ -73,7 +75,18 @@ def add_attachment(msg):
     msg.attach(attachment)
     print("Attachment has been added")
 
-server = setup_server()
-address  = login(server)
-msg = create_email(address)
-send(server,msg)
+try:
+    server = setup_server()
+    address  = login(server)
+    msg = create_email(address)
+    send(server,msg)
+except socket.gaierror:
+    print("No Internet Connection")
+except smtplib.SMTPAuthenticationError :
+    # If password or username is wrong
+    # If less secure app access not granted in google account settings
+    print("Authentication Failed")
+except smtplib.SMTPRecipientsRefused :
+   print("Invalid Recipient Email")
+except Exception:
+    print("Sending Failed.")
